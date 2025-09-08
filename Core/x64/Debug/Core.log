@@ -1,0 +1,45 @@
+﻿  main.cpp
+C:\dev\VulkanRenderer\Core\main.cpp(41,3): warning C4002: too many arguments for function-like macro invocation 'DEBUG_LOG_ERROR'
+C:\dev\VulkanRenderer\Core\main.cpp(41,3): warning C4473: 'printf' : not enough arguments passed for format string
+      C:\dev\VulkanRenderer\Core\main.cpp(41,3):
+      placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+      C:\dev\VulkanRenderer\Core\main.cpp(41,3):
+      the missing variadic argument 1 is required by format string '%d'
+  
+C:\dev\VulkanRenderer\Core\main.cpp(57,3): warning C4002: too many arguments for function-like macro invocation 'DEBUG_LOG_ERROR'
+C:\dev\VulkanRenderer\Core\main.cpp(57,3): warning C4473: 'printf' : not enough arguments passed for format string
+      C:\dev\VulkanRenderer\Core\main.cpp(57,3):
+      placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+      C:\dev\VulkanRenderer\Core\main.cpp(57,3):
+      the missing variadic argument 1 is required by format string '%d'
+  
+C:\dev\VulkanRenderer\Core\main.cpp(70,2): warning C4002: too many arguments for function-like macro invocation 'DEBUG_LOG'
+C:\dev\VulkanRenderer\Core\main.cpp(70,2): warning C4473: 'printf' : not enough arguments passed for format string
+      C:\dev\VulkanRenderer\Core\main.cpp(70,2):
+      placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+      C:\dev\VulkanRenderer\Core\main.cpp(70,2):
+      the missing variadic argument 1 is required by format string '%s'
+  
+C:\dev\VulkanRenderer\Core\main.cpp(71,2): warning C4002: too many arguments for function-like macro invocation 'DEBUG_LOG'
+C:\dev\VulkanRenderer\Core\main.cpp(71,2): warning C4473: 'printf' : not enough arguments passed for format string
+      C:\dev\VulkanRenderer\Core\main.cpp(71,2):
+      placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+      C:\dev\VulkanRenderer\Core\main.cpp(71,2):
+      the missing variadic argument 1 is required by format string '%s'
+  
+C:\dev\VulkanRenderer\Core\main.cpp(72,2): warning C4002: too many arguments for function-like macro invocation 'DEBUG_LOG'
+C:\dev\VulkanRenderer\Core\main.cpp(72,2): warning C4473: 'printf' : not enough arguments passed for format string
+      C:\dev\VulkanRenderer\Core\main.cpp(72,2):
+      placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+      C:\dev\VulkanRenderer\Core\main.cpp(72,2):
+      the missing variadic argument 1 is required by format string '%s'
+  
+C:\dev\VulkanRenderer\Core\main.cpp(76,3): warning C4002: too many arguments for function-like macro invocation 'DEBUG_LOG'
+C:\dev\VulkanRenderer\Core\main.cpp(76,3): warning C4473: 'printf' : not enough arguments passed for format string
+      C:\dev\VulkanRenderer\Core\main.cpp(76,3):
+      placeholders and their parameters expect 1 variadic arguments, but 0 were provided
+      C:\dev\VulkanRenderer\Core\main.cpp(76,3):
+      the missing variadic argument 1 is required by format string '%llx'
+  
+C:\dev\VulkanRenderer\Core\main.cpp(143,52): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
+  Core.vcxproj -> C:\dev\VulkanRenderer\x64\Debug\Core.exe
