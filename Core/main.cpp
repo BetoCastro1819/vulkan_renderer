@@ -12,14 +12,17 @@
 
 #define APP_NAME "Vulkan Renderer"
 
-#define CHECK_VK_RESULT(res, msg) \
-	if (res != VK_SUCCESS) { \
-		fprintf(stderr, "Error in %s:%d - %s, code %x\n", __FILE__, __LINE__, msg, res); \
-		exit(1); \
-	}
-
 #define DEBUG_LOG(msg) printf(msg); printf("\n");
 #define DEBUG_LOG_ERROR(msg) printf("ERROR: "); printf(msg); printf("\n");
+
+void CheckVkResult( const char* msg, VkResult res)
+{
+	if (res != VK_SUCCESS)
+	{
+		fprintf(stderr, "Error in %s:%d - %s, code %x\n", __FILE__, __LINE__, msg, res);
+		exit(1);
+	}
+}
 
 void GLFW_KeyCallback(GLFWwindow* window, int key, int scanCode, int action, int mods)
 {
@@ -143,13 +146,6 @@ int main()
 	createInfo.enabledExtensionCount = extensions.size();
 	createInfo.ppEnabledExtensionNames = extensions.data();
 
-	VkInstance vulkanInstance = VK_NULL_HANDLE;
-	VkResult isntanceResult = vkCreateInstance(&createInfo, nullptr, &vulkanInstance);
-	CHECK_VK_RESULT(isntanceResult, "Created vulkan instance");
-	DEBUG_LOG("Vulkan instance created");
-
-	VkDebugUtilsMessengerEXT debugMessenger = VK_NULL_HANDLE;
-	
 	VkDebugUtilsMessengerCreateInfoEXT messengerCreateInfo = {};
 	messengerCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
 	messengerCreateInfo.pNext = nullptr;
@@ -167,6 +163,10 @@ int main()
 	messengerCreateInfo.pfnUserCallback = &DebugCallback;
 	messengerCreateInfo.pUserData = nullptr;
 
+	VkInstance vulkanInstance = VK_NULL_HANDLE;
+	CheckVkResult("Creating vulkan instance", vkCreateInstance(&createInfo, nullptr, &vulkanInstance));
+	DEBUG_LOG("Vulkan instance created");
+
 	PFN_vkCreateDebugUtilsMessengerEXT vkCreateDebugUtilsMessenger = VK_NULL_HANDLE;
 	vkCreateDebugUtilsMessenger = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(vulkanInstance, "vkCreateDebugUtilsMessengerEXT");
 	if (!vkCreateDebugUtilsMessenger)
@@ -175,15 +175,31 @@ int main()
 		exit(1);
 	}
 
-	VkResult debugUtilsResult = vkCreateDebugUtilsMessenger(vulkanInstance, &messengerCreateInfo, nullptr, &debugMessenger);
-	CHECK_VK_RESULT(debugUtilsResult, "Debug utils messenger");
+	VkDebugUtilsMessengerEXT debugMessenger = VK_NULL_HANDLE;
+	CheckVkResult("Debug utils messenger", vkCreateDebugUtilsMessenger(vulkanInstance, &messengerCreateInfo, nullptr, &debugMessenger));
 	DEBUG_LOG("Debug utils messenger created");
+
+	VkSurfaceKHR vkSurface = VK_NULL_HANDLE;
+	CheckVkResult("Create window surface", glfwCreateWindowSurface(vulkanInstance, window, nullptr, &vkSurface));
 
 	while (!glfwWindowShouldClose(window))
 	{
 		// RenderScene();
 		glfwPollEvents();
 	}
+
+	DEBUG_LOG("\n");
+	DEBUG_LOG("*------- CLOSED APPLICATION -------*");
+
+	PFN_vkDestroySurfaceKHR vkDestroySurface = VK_NULL_HANDLE;
+	vkDestroySurface = (PFN_vkDestroySurfaceKHR)vkGetInstanceProcAddr(vulkanInstance, "vkDestroySurfaceKHR");
+	if (!vkDestroySurface)
+	{
+		DEBUG_LOG_ERROR("Failed to find address of vkDestroySurface");
+		exit(1);
+	}
+	vkDestroySurface(vulkanInstance, vkSurface, nullptr);
+	DEBUG_LOG("GLFW window surface destroyed");
 
 	PFN_vkDestroyDebugUtilsMessengerEXT vkDestroyDebugUtilsMessenger = VK_NULL_HANDLE;
 	vkDestroyDebugUtilsMessenger = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(vulkanInstance, "vkDestroyDebugUtilsMessengerEXT");
@@ -192,10 +208,6 @@ int main()
 		DEBUG_LOG_ERROR("Failed to find address of vkDestroyDebugUtilsMessenger");
 		exit(1);
 	}
-
-	DEBUG_LOG("\n");
-	DEBUG_LOG("*------- CLOSED APPLICATION -------*");
-
 	vkDestroyDebugUtilsMessenger(vulkanInstance, debugMessenger, nullptr);
 	DEBUG_LOG("Debug callback destroyed");
 
